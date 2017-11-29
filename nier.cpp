@@ -160,7 +160,8 @@ struct far_cam_state_s
   vec3_t  fwd, right, up;
 
   bool center_lock = false,
-       focus_lock  = false;
+       focus_lock  = false,
+       freecam     = false;
 
   SK_Keybind center_binding {
      "Camera Center Lock Toggle", L"Num /",
@@ -189,6 +190,14 @@ struct far_cam_state_s
     else            SK_GetCommandProcessor ()->ProcessCommandLine ("mem l 4D5668 8590909090909090");
 
     return (focus_lock = (! focus_lock));
+  }
+
+  bool toggleFreeCam(void)
+  {
+	  if (freecam) SK_GetCommandProcessor ()->ProcessCommandLine("mem i 1415B90 00000000");
+	  else         SK_GetCommandProcessor ()->ProcessCommandLine("mem i 1415B90 80000000");
+
+	  return (freecam = (! freecam));
   }
 } static far_cam;
 
@@ -2789,6 +2798,14 @@ SK_FAR_ControlPanel (void)
 
       ImGui::SameLine       ();
       changed |= Keybinding (&far_cam.freelook_binding, far_free_look);
+
+      ImGui::Separator();
+
+      if (ImGui::Checkbox("Enable free camera", &far_cam.freecam))
+      {
+        far_cam.freecam = (!far_cam.freecam);
+        far_cam.toggleFreeCam ();
+      }
 
       ImGui::Separator ();
 
