@@ -155,7 +155,6 @@ struct far_cam_state_s
 	//  Ptr at  { F3 44 0F 11 88 74 02 00 00 89 88 84 02 00 00 }  +  4
 	vec3_t* pCamera = reinterpret_cast <vec3_t *> (0x141605400);//0x1415EB950; 
 	vec3_t* pLook = reinterpret_cast <vec3_t *> (0x141605410);//0x1415EB960;
-	float*  pRoll = reinterpret_cast <float  *> (0x141415B90);//1415EB990;
 
 	vec3_t  fwd, right, up;
 
